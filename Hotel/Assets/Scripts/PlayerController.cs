@@ -6,22 +6,40 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 7f;
     public float runSpeed = 12f;
+    public float gravity = 20f;
     public float jumpPower = 200f;
 
-    [Header("Is object on ground?")]
-    public bool ground;
+    private Vector3 moveDir = Vector3.zero;
 
-    public Rigidbody rigidbody;
+    private CharacterController controller;
+    private Rigidbody rigidbody;
+
+    public bool ground = false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        controller = GetComponent<CharacterController>();
+        //rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        GetInput();
+        if (controller.isGrounded)
+        {
+            moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDir = transform.TransformDirection(moveDir);
+            moveDir *= speed;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
+        {
+            moveDir.y = jumpPower;
+        }
+        moveDir.y -= gravity * Time.deltaTime;
+
+        controller.Move(moveDir * Time.deltaTime);
+
+        //GetInput();
     }
 
     private void GetInput()
@@ -44,7 +62,7 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            if(ground)
+            if (ground)
             {
                 rigidbody.AddForce(transform.up * jumpPower);
             }
