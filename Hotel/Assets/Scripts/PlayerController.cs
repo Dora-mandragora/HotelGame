@@ -29,7 +29,8 @@ public class PlayerController : MonoBehaviour
         {
             moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             moveDir = transform.TransformDirection(moveDir);
-            moveDir *= speed;
+            if(Input.GetKey(KeyCode.LeftShift)) moveDir *= runSpeed;
+            else moveDir *= speed;
         }
         if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
         {

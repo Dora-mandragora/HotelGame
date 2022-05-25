@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         startY = 0;
 
         style = new GUIStyle();
-        style.normal.textColor = Color.yellow;
+        style.normal.textColor = new Color(255,252,189);
         style.fontSize = 40;
 
         StartCoroutine(SpawnNPC());
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     IEnumerator SpawnNPC()
     {
         yield return new WaitForSeconds(10);
-        if (NPCs.Length < 10)
+        if (NPCs.Length < 7)
             Instantiate(NPCPrefab, new Vector3(startX,startY,0),Quaternion.identity);
         StartCoroutine(SpawnNPC());
     }
